@@ -1,3 +1,6 @@
 programa/.env
 programa/.ip
 programa/.log_aplicacio.log
+crear_dicionario/p
+programa/__pycache__
+programa/__pycache__/*

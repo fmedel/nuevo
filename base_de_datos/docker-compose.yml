@@ -1,18 +1,7 @@
 version: '2'
-
-# docker network inspect fmedel_network
-# docker network create fmedel_network
-
-networks:
-  distribuida:
-    external:
-      name: fmedel_network
-
 services:
-  postgres:
-    build:
-      context: ./
-      dockerfile: Dockerfile
+  PostgreSQL:
+    image: postgres:9.6
     ports:
       - "8082:5432"
     environment:
