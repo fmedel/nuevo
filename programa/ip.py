@@ -6,14 +6,13 @@ import logging
 class IP: #clase que contiene todo lo relacionado con la ip
     def __init__(self,Direccion_Remi="remitente@ejemplo.com",Direccion_Desti="destinatario@ejemplo.com",Contrasenia_Remi="password_remitente"):
         try:
-            self.IP_Publica = self.get_ip()
+            self.IP_Publica = self.get_ip() #hacer para que funcione sin internet local
             self.Direccion_Remi = Direccion_Remi
             self.Direccion_Desti = Direccion_Desti
             self.Contrasenia_Remi = Contrasenia_Remi
             self.puerto=8081
             self.Apikey_str=self.Apikey()
         except:
-            print("Datos correctamente ingresado de la IP")
             print("Error al cargar los datos de la IP")
             logging.critical("Error: al cargar los datos de la IP")
             sys.exit(1)
@@ -81,7 +80,7 @@ class IP: #clase que contiene todo lo relacionado con la ip
             print("Error al crear archivo ip ")
             sys.exit(1)
 
-    def enviar_Apikey(self,Destinatario):
+    def enviar_Apikey(self,Destinatario): # envia por mail la apikey
         if Destinatario==False:
             Destinatario= self.Direccion_Desti
         try:

@@ -10,7 +10,18 @@ class conexion_base_datos: #conexion con la bases de datos PostgreSQL
         self.dbname = dbname
         self.password = password
         self.port = port
-    def crear_bd(self):
+    def conectar_test(self):
+            try:
+                conn_string = "host={0} user={1} dbname={2} password={3} port={4}".format(self.host, self.user, self.dbname, self.password, self.port)
+                conn = psycopg2.connect(conn_string)
+                logging.debug("conexion establecida")
+                cursor = conn.cursor()
+                cursor.close()
+                conn.close()
+                return 0
+            except:
+                return 1
+    def crear_bd(self):#crea la base de datos en PostgreSQL
         try:
             conn_string = "host={0} user={1} dbname={2} password={3} port={4}".format(self.host, self.user, self.dbname, self.password, self.port)
             conn = psycopg2.connect(conn_string)
@@ -31,10 +42,10 @@ class conexion_base_datos: #conexion con la bases de datos PostgreSQL
             conn.close()
             logging.debug("conexion terminada")
         except:
-            print("Error en la conexion")
-            logging.critical("Error en la conexion")
+            print("Error en la conexion crear_bd")
+            logging.critical("Error en la conexion crear_bd")
 
-    def cargar_datos(self):
+    def cargar_datos(self): #carga los datos
         try:
             conn_string = "host={0} user={1} dbname={2} password={3} port={4}".format(self.host, self.user, self.dbname, self.password, self.port)
             conn = psycopg2.connect(conn_string)
@@ -51,13 +62,13 @@ class conexion_base_datos: #conexion con la bases de datos PostgreSQL
             print("Error en la conexion")
             logging.critical("Error en la conexion")
 
-    def listar_all(self):
+    def listar_all(self,tabla): #lista todos los datos de la tabla
         try:
             conn_string = "host={0} user={1} dbname={2} password={3} port={4}".format(self.host, self.user, self.dbname, self.password, self.port)
             conn = psycopg2.connect(conn_string)
             logging.debug("conexion establecida")
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM inventory")
+            cursor.execute("SELECT * FROM "+tabla)
             cats=cursor.fetchall()
             for dato in cats:
                 print(dato[2])
@@ -67,3 +78,10 @@ class conexion_base_datos: #conexion con la bases de datos PostgreSQL
         except:
             print("Error en la conexion")
             logging.critical("Error en la conexion")
+
+    def configuracion(self):
+        from funciones_extra import archivo_exite
+        if not(archivo_exite(".config_bd")):
+            return False
+        else:
+            return True
