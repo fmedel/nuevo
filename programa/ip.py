@@ -1,9 +1,11 @@
 #libreira base
 import sys
 import logging
+
 ###############################
 
 class IP: #clase que contiene todo lo relacionado con la ip
+
     def __init__(self,Direccion_Remi="remitente@ejemplo.com",Direccion_Desti="destinatario@ejemplo.com",Contrasenia_Remi="password_remitente"):
         try:
             self.IP_Publica = self.get_ip() #hacer para que funcione sin internet local
@@ -33,13 +35,24 @@ class IP: #clase que contiene todo lo relacionado con la ip
     def get_ip(self): # entrega la ip publica
         try:
             logging.debug("Optener la ip publica")
-            import urllib
-            import urllib.request
-            response = urllib.request.urlopen('http://icanhazip.com')
+            try:
+                import urllib
+                import urllib.request
+            except:
+                logging.critical("Error: al importar libreria urllib")
+                print('Error: al importar libreria urllib')
+                sys.exit(1)
+            try:
+                pag_web='http://icanhazip.com' #pag web que entrega la ip
+                response = urllib.request.urlopen(pag_web)
+            except:
+                logging.critical("Error: En la pag web para ver la ip")
+                print('Error: En la pag web para ver la ip(  '+pag_web+' )')
+                sys.exit(1)
             IPRaw = response.read()
             IP = IPRaw.strip().decode('utf-8')
-            logging.info("La ip publica es "+IP)
-            return IP
+            print(IPRaw)
+            print(IP)
         except:
             logging.critical("Error: al recojer la ip")
             print('Error: al recojer la ip')
@@ -47,7 +60,12 @@ class IP: #clase que contiene todo lo relacionado con la ip
 
     def enviar_email(self): # envia email cuando la ip cambia
         try:
-            from smtplib import SMTP
+            try:
+                from smtplib import SMTP
+            except:
+                logging.critical("Error: al importar libreria smtplib")
+                print('Error: al importar libreria smtplib')
+                sys.exit(1)
             Asunto_Mensaje="Cambio de IP publica "
             EnviarCorreo = SMTP()
             EnviarCorreo.connect("smtp.gmail.com", 587)
@@ -80,11 +98,16 @@ class IP: #clase que contiene todo lo relacionado con la ip
             print("Error al crear archivo ip ")
             sys.exit(1)
 
-    def enviar_Apikey(self,Destinatario): # envia por mail la apikey
+    def enviar_Apikey(self,Destinatario=False): # envia por mail la apikey
         if Destinatario==False:
             Destinatario= self.Direccion_Desti
         try:
-            from smtplib import SMTP
+            try:
+                from smtplib import SMTP
+            except:
+                logging.critical("Error: al importar libreria smtplib")
+                print('Error: al importar libreria smtplib')
+                sys.exit(1)
             Asunto_Mensaje="La api key "
             EnviarCorreo = SMTP()
             EnviarCorreo.connect("smtp.gmail.com", 587)
@@ -118,4 +141,20 @@ class IP: #clase que contiene todo lo relacionado con la ip
         except:
             logging.critical('Error al leer el archivo ip')
             print("Error al leer el archivo ip ")
+            sys.exit(1)
+
+    def ip_privada(self): #entrega la ip privada
+        try:
+            try:
+                import socket
+            except:
+                logging.critical('Error: al importar la  libreria socket')
+                print ('Error: al importar la  libreria socket')
+                sys.exit(1)
+            nombre_equipo = socket.gethostname()
+            direccion_equipo = socket.gethostbyname(nombre_equipo)
+            return direccion_equipo
+        except:
+            logging.critical('Error: en ip privada')
+            print ('Error: en ip privada')
             sys.exit(1)

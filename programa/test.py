@@ -67,9 +67,10 @@ def ip_f():
         try:
             print("\tTestiando enviar_email")
             try:
-                from configuracion import leer_configuracion
-                datos=leer_configuracion()
-                ip2 = IP(datos["remitente"],datos["destinatario"],datos["clave"])
+                pass
+                #from configuracion import leer_configuracion
+                #datos=leer_configuracion()
+                #ip2 = IP(datos["remitente"],datos["destinatario"],datos["clave"])
             except:
                 print("\t\tError en enviar_email")
                 return 0
@@ -84,8 +85,15 @@ def ip_f():
             #print("-------------------------------------------------------")
             #ip2.enviar_Apikey(False)
             #print("-------------------------------------------------------")
+            print("\t\tTest completo")
         except:
             print("\t\tError en enviar_Apikey")
+        try:
+            print("\tTestiando entrega de ip privada")
+            #ip.ip_privada()
+            print("\t\tTest completo")
+        except:
+            print("\t\tError en ip_privada")
     except:
         print("Error en ip.py")
 
@@ -115,7 +123,6 @@ def configuracion_f():
 
     except:
         print("Error en el archivo configuracion.py")
-
 def base_dato_f():
     try:
         print("Testiando el archivo base_dato.py")
@@ -147,19 +154,19 @@ def base_dato_f():
             print("\tError en import configuración")
     except:
         print("Error en el archivo base_dato.py")
-
-def json_e.py():
+def json_e():
     pass
+
 if __name__ == '__main__':
     print("***** inicio del testeo ******")
     print("")
-    funciones_extra_test()
+    #funciones_extra_test()
     print("")
-    configuracion_f() # config descomnetar para testiarla
+    #configuracion_f() # config descomnetar para testiarla
     print("")
-    ip_f() #enviar_email y enviar_Apikey descomnetar para testiarla
+    ip_f() #enviar_email , enviar_Apikey descomnetar para testiarla
     print("")
-    base_dato_f()
+    #base_dato_f()
     print("")
     print("")
     print("***** Fin del testeo ******")
