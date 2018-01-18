@@ -47,12 +47,12 @@ class IP: #clase que contiene todo lo relacionado con la ip
                 response = urllib.request.urlopen(pag_web)
             except:
                 logging.critical("Error: En la pag web para ver la ip")
-                print('Error: En la pag web para ver la ip(  '+pag_web+' )')
+                print("Error: En la pag web para ver la ip(  "+pag_web+" )")
                 sys.exit(1)
             IPRaw = response.read()
             IP = IPRaw.strip().decode('utf-8')
-            print(IPRaw)
-            print(IP)
+            logging.info("La ip publica es "+IP)
+            return IP
         except:
             logging.critical("Error: al recojer la ip")
             print('Error: al recojer la ip')
@@ -64,7 +64,7 @@ class IP: #clase que contiene todo lo relacionado con la ip
                 from smtplib import SMTP
             except:
                 logging.critical("Error: al importar libreria smtplib")
-                print('Error: al importar libreria smtplib')
+                print("Error: al importar libreria smtplib")
                 sys.exit(1)
             Asunto_Mensaje="Cambio de IP publica "
             EnviarCorreo = SMTP()
@@ -106,7 +106,7 @@ class IP: #clase que contiene todo lo relacionado con la ip
                 from smtplib import SMTP
             except:
                 logging.critical("Error: al importar libreria smtplib")
-                print('Error: al importar libreria smtplib')
+                print("Error: al importar libreria smtplib")
                 sys.exit(1)
             Asunto_Mensaje="La api key "
             EnviarCorreo = SMTP()
@@ -148,11 +148,12 @@ class IP: #clase que contiene todo lo relacionado con la ip
             try:
                 import socket
             except:
-                logging.critical('Error: al importar la  libreria socket')
-                print ('Error: al importar la  libreria socket')
+                logging.critical("Error: al importar la  libreria socket")
+                print ("Error: al importar la  libreria socket")
                 sys.exit(1)
             nombre_equipo = socket.gethostname()
             direccion_equipo = socket.gethostbyname(nombre_equipo)
+            logging.info("La ip privada es "+direccion_equipo)
             return direccion_equipo
         except:
             logging.critical('Error: en ip privada')
